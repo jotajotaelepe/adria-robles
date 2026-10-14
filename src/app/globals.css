@@ -1,17 +1,47 @@
+/*
+  Design tokens — pulled from the Figma file "SELF" (Syv1JN100VeyFR6SWhlHns).
+  Desktop frames are 1920 wide, mobile frames 1080 wide.
+*/
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* colors */
+  --white: #ffffff;
+  --black: #000000;
+  --yellow: #fde459;
+  --blue: #bee8ff;
+  --purple: #8846cb;
+
+  --bg: var(--white);
+  --fg: var(--black);
+
+  /* fonts */
+  --f-display: var(--font-display), "Calistoga", serif; /* name, footer lead-in */
+  --f-serif: var(--font-serif), "Caladea", serif; /* badge, footer text */
+  --f-sans: var(--font-sans), "Helvetica Neue", Helvetica, Arial, sans-serif; /* About copy */
+
+  /* type scale (px at the 1920 desktop frame) */
+  --t-name: 42px; /* "Adria Robles." / "¡Hola, hello!" — lh 47 */
+  --t-footer: 30px; /* footer bar — lh 34 */
+  --t-badge: 26px; /* "Hello!" / "Later!" — lh 29 */
+  --t-body: 26px; /* About copy — lh 36, ls 0.02em */
+
+  /* layout */
+  --gutter: 76px; /* left/right page margin on desktop */
+  --footer-h: 100px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
 }
 
 html {
-  height: 100%;
+  -webkit-text-size-adjust: 100%;
 }
 
 html,
@@ -21,20 +51,12 @@ body {
 }
 
 body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  color: var(--fg);
+  background: var(--bg);
+  font-family: var(--f-serif);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
 }
 
 a {
@@ -42,8 +64,7 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+img {
+  display: block;
+  max-width: 100%;
 }
