@@ -26,7 +26,15 @@
 
   /* layout */
   --gutter: 76px; /* left/right page margin on desktop */
-  --footer-h: 100px;
+  --footer-h: clamp(56px, calc(100 * var(--u)), 100px);
+  /* one design px, scaled to the viewport (design widths: 1920 desktop, 1080 mobile) */
+  --u: calc(min(100vw, 1920px) / 1920);
+}
+
+@media (max-width: 767px) {
+  :root {
+    --u: calc(100vw / 1080);
+  }
 }
 
 *,

@@ -1,0 +1,22 @@
+.hero {
+  position: relative;
+  max-width: 1920px;
+  margin: 0 auto;
+}
+.desktop,
+.mobile {
+  position: relative;
+  width: 100%;
+}
+.mobile {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .desktop {
+    display: none;
+  }
+  .mobile {
+    display: block;
+  }
+}

@@ -1,0 +1,28 @@
+.header {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 50;
+  pointer-events: none;
+}
+.header > * {
+  pointer-events: auto;
+}
+
+.name {
+  position: absolute;
+  left: calc(76 * var(--u));
+  top: calc(80 * var(--u));
+  font-family: var(--f-display);
+  font-weight: 400;
+  font-size: clamp(24px, calc(42 * var(--u)), 42px);
+  line-height: 1.12;
+  white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+  .name {
+    left: 18px;
+    top: 24px;
+    font-size: 26px;
+  }
+}

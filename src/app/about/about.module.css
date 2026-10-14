@@ -1,0 +1,30 @@
+.page {
+  position: relative;
+  max-width: 1920px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding: calc(663 * var(--u)) calc(76 * var(--u)) calc(100px + 60px);
+}
+
+.copy {
+  columns: 2;
+  column-gap: calc(63 * var(--u));
+  font-family: var(--f-sans);
+  font-size: clamp(16px, calc(26 * var(--u)), 26px);
+  line-height: 1.385; /* 36 / 26 */
+  letter-spacing: 0.02em;
+}
+.copy p + p {
+  margin-top: 1.385em;
+}
+
+@media (max-width: 767px) {
+  .page {
+    padding: 140px 20px calc(100px + 40px);
+  }
+  .copy {
+    columns: 1;
+    font-size: 16px;
+    letter-spacing: 0;
+  }
+}

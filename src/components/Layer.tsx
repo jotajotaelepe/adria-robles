@@ -1,0 +1,92 @@
+"use client";
+
+import { useRef } from "react";
+import type { CollageItem } from "@/data/collage";
+import styles from "./Layer.module.css";
+
+type Props = {
+  item: CollageItem;
+  /** design-frame size the item's x/y/w/h are measured against */
+  frame: { w: number; h: number };
+  draggable?: boolean;
+  priority?: boolean;
+  /** below 768px, drop out of the absolute canvas and stack in a column */
+  flow?: boolean;
+};
+
+const pct = (n: number) => `${n * 100}%`;
+
+/** One Figma layer, positioned as a percentage of its frame so the whole composition scales. */
+export default function Layer({ item, frame, draggable, priority, flow }: Props) {
+  const { x, y, w, h, z, crop, src, label, kind } = item;
+  const ref = useRef<HTMLDivElement>(null);
+  const drag = useRef<{ sx: number; sy: number; ox: number; oy: number } | null>(null);
+
+  const onDown = (e: React.PointerEvent) => {
+    if (!draggable || !ref.current) return;
+    const cur = ref.current.dataset;
+    drag.current = { sx: e.clientX, sy: e.clientY, ox: Number(cur.dx ?? 0), oy: Number(cur.dy ?? 0) };
+    ref.current.setPointerCapture(e.pointerId);
+    ref.current.classList.add(styles.grabbing);
+  };
+  const onMove = (e: React.PointerEvent) => {
+    const d = drag.current;
+    if (!d || !ref.current) return;
+    const dx = d.ox + e.clientX - d.sx;
+    const dy = d.oy + e.clientY - d.sy;
+    ref.current.dataset.dx = String(dx);
+    ref.current.dataset.dy = String(dy);
+    ref.current.style.setProperty("--dx", `${dx}px`);
+    ref.current.style.setProperty("--dy", `${dy}px`);
+  };
+  const onUp = () => {
+    drag.current = null;
+    ref.current?.classList.remove(styles.grabbing);
+  };
+
+  const imgStyle = crop
+    ? {
+        position: "absolute" as const,
+        width: pct(crop[0]),
+        height: pct(crop[1]),
+        left: pct(crop[2]),
+        top: pct(crop[3]),
+        maxWidth: "none",
+      }
+    : undefined;
+
+  return (
+    <div
+      ref={ref}
+      className={[styles.layer, kind === "arrows" && styles.arrows, draggable && styles.draggable, flow && styles.flow]
+        .filter(Boolean)
+        .join(" ")}
+      style={
+        {
+          left: pct(x / frame.w),
+          top: pct(y / frame.h),
+          width: pct(w / frame.w),
+          height: pct(h / frame.h),
+          zIndex: z,
+          "--mw": `${Math.min(92, Math.max(26, (w / 1920) * 220))}%`,
+          "--xr": Math.min(1, Math.max(0, x / (1920 - w))),
+          "--ar": `${w} / ${h}`,
+        } as React.CSSProperties
+      }
+      onPointerDown={onDown}
+      onPointerMove={onMove}
+      onPointerUp={onUp}
+      onPointerCancel={onUp}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={src}
+        alt={kind === "arrows" ? "" : label}
+        draggable={false}
+        loading={priority ? "eager" : "lazy"}
+        decoding="async"
+        style={imgStyle}
+      />
+    </div>
+  );
+}
