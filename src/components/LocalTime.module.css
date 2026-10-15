@@ -1,0 +1,40 @@
+.widget {
+  position: absolute;
+  left: 50%;
+  top: calc(88 * var(--u));
+  translate: -50% 0;
+  display: flex;
+  gap: 0.6em;
+  align-items: baseline;
+  min-height: 1.3em;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: var(--f-serif);
+  font-size: clamp(14px, calc(22 * var(--u)), 22px);
+  line-height: 1.3;
+}
+.time {
+  font-variant-numeric: tabular-nums;
+  min-width: 6.4em;
+  text-align: center;
+}
+.widget:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.sep {
+  opacity: 0.5;
+}
+
+@media (max-width: 767px) {
+  .widget {
+    left: 18px;
+    top: 64px;
+    translate: none;
+    font-size: 13px;
+  }
+}

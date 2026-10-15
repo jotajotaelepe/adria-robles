@@ -1,4 +1,5 @@
 import { collage, COLLAGE_W, COLLAGE_H } from "@/data/collage";
+import FrogHunt from "./FrogHunt";
 import Layer from "./Layer";
 import styles from "./Collage.module.css";
 
@@ -10,6 +11,7 @@ export default function Collage() {
         {collage.map((it) => (
           <Layer key={it.id} item={it} frame={{ w: COLLAGE_W, h: COLLAGE_H }} flow reveal={it.kind === "img"} />
         ))}
+        <FrogHunt />
       </div>
     </section>
   );

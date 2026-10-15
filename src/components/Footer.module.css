@@ -9,6 +9,7 @@
   font-family: var(--f-serif);
   font-size: clamp(16px, calc(30 * var(--u)), 30px);
   line-height: 1.13;
+  white-space: nowrap;
   transition: background-color 0.4s ease;
 }
 .blue {
@@ -18,71 +19,61 @@
   background: var(--yellow);
 }
 
-.row {
-  width: 100%;
-  max-width: 1920px;
-  margin: 0 auto;
-  padding: 0 calc(76 * var(--u)) 0 calc(76 * var(--u));
+.track {
+  display: flex;
+  width: max-content;
+  animation: marquee 48s linear infinite;
+}
+.footer:hover .track {
+  animation-play-state: paused;
+}
+
+/* each group is at least one viewport wide, so the loop never shows a gap */
+.group {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: calc(24 * var(--u));
-  white-space: nowrap;
+  justify-content: space-around;
+  gap: calc(48 * var(--u));
+  min-width: 100vw;
+  padding-right: calc(48 * var(--u));
 }
-.lead {
-  font-family: var(--f-display);
-}
+.lead,
 .dot {
   font-family: var(--f-display);
 }
-.row a {
-  text-underline-offset: 0.18em;
+.hint em {
+  font-style: italic;
 }
-.row a:hover {
+.group a:hover {
   text-decoration: underline;
   text-decoration-thickness: 2px;
+  text-underline-offset: 0.18em;
 }
 
-.ticker {
-  display: none;
-}
-
-@media (max-width: 899px) {
-  .footer {
-    height: var(--footer-h);
-  }
-  .row {
-    display: none;
-  }
-  .ticker {
-    display: block;
-    width: 100%;
-  }
-  .track {
-    display: flex;
-    width: max-content;
-    animation: ticker 28s linear infinite;
-  }
-  .group {
-    display: flex;
-    align-items: center;
-    gap: 22px;
-    padding-right: 22px;
-    white-space: nowrap;
-  }
-  .group a {
-    text-decoration: underline;
-  }
-}
-
-@keyframes ticker {
+@keyframes marquee {
   to {
     transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 767px) {
+  .track {
+    animation-duration: 32s;
+  }
+  .group {
+    gap: 22px;
+    padding-right: 22px;
+    justify-content: flex-start;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .track {
     animation: none;
+    width: 100%;
+    overflow-x: auto;
+  }
+  .group[aria-hidden="true"] {
+    display: none;
   }
 }
