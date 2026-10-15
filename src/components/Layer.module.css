@@ -16,15 +16,61 @@
   cursor: grab;
   touch-action: none;
   transition: rotate 0.25s ease, scale 0.25s ease;
+  animation: sway 4.5s ease-in-out infinite alternate;
+  animation-delay: var(--d);
 }
 .draggable:hover {
+  animation: none;
   rotate: -6deg;
   scale: 1.06;
 }
 .grabbing {
+  animation: none;
   cursor: grabbing;
   rotate: 8deg !important;
   scale: 1.12 !important;
+}
+
+@keyframes sway {
+  from {
+    rotate: -3deg;
+  }
+  to {
+    rotate: 3deg;
+  }
+}
+
+/* scroll reveal — only hides things when scripting is available, so no-JS visitors still see everything */
+@media (scripting: enabled) {
+  .reveal:not(.in) {
+    opacity: 0;
+    translate: 0 48px;
+    rotate: var(--r);
+  }
+  .reveal.in {
+    transition: opacity 0.7s ease, translate 0.9s cubic-bezier(0.2, 0.8, 0.2, 1), rotate 0.9s cubic-bezier(0.2, 0.8, 0.2, 1),
+      scale 0.3s ease;
+  }
+}
+
+/* images tilt a touch on hover (pointer devices only) */
+@media (hover: hover) {
+  .reveal.img:hover,
+  .reveal:not(.arrows):hover {
+    rotate: calc(var(--r) * -1);
+    scale: 1.025;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .draggable {
+    animation: none;
+  }
+  .reveal:not(.in) {
+    opacity: 1;
+    translate: none;
+    rotate: none;
+  }
 }
 
 .arrows {

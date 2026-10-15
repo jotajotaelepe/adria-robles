@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import type { CollageItem } from "@/data/collage";
 import styles from "./Layer.module.css";
 
@@ -12,15 +12,33 @@ type Props = {
   priority?: boolean;
   /** below 768px, drop out of the absolute canvas and stack in a column */
   flow?: boolean;
+  /** fade/rise into place the first time it scrolls into view */
+  reveal?: boolean;
 };
 
 const pct = (n: number) => `${n * 100}%`;
 
 /** One Figma layer, positioned as a percentage of its frame so the whole composition scales. */
-export default function Layer({ item, frame, draggable, priority, flow }: Props) {
+export default function Layer({ item, frame, draggable, priority, flow, reveal }: Props) {
   const { x, y, w, h, z, crop, src, label, kind } = item;
   const ref = useRef<HTMLDivElement>(null);
   const drag = useRef<{ sx: number; sy: number; ox: number; oy: number } | null>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!reveal || !el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          el.classList.add(styles.in);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -6% 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [reveal]);
 
   const onDown = (e: React.PointerEvent) => {
     if (!draggable || !ref.current) return;
@@ -58,7 +76,7 @@ export default function Layer({ item, frame, draggable, priority, flow }: Props)
   return (
     <div
       ref={ref}
-      className={[styles.layer, kind === "arrows" && styles.arrows, draggable && styles.draggable, flow && styles.flow]
+      className={[styles.layer, kind === "arrows" && styles.arrows, draggable && styles.draggable, flow && styles.flow, reveal && styles.reveal]
         .filter(Boolean)
         .join(" ")}
       style={
@@ -71,6 +89,8 @@ export default function Layer({ item, frame, draggable, priority, flow }: Props)
           "--mw": `${Math.min(92, Math.max(26, (w / 1920) * 220))}%`,
           "--xr": Math.min(1, Math.max(0, x / (1920 - w))),
           "--ar": `${w} / ${h}`,
+          "--r": `${(((x * 13 + y * 7) % 9) - 4) * 0.6}deg`,
+          "--d": `${-((x + y) % 7)}s`,
         } as React.CSSProperties
       }
       onPointerDown={onDown}

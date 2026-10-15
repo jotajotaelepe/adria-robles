@@ -11,8 +11,10 @@
   font-size: clamp(17px, calc(26 * var(--u)), 26px);
   line-height: 1.1;
   transition: rotate 0.3s ease, scale 0.3s ease;
+  animation: wobble 5s ease-in-out infinite alternate;
 }
 .badge:hover {
+  animation: none;
   rotate: 8deg;
   scale: 1.1;
 }
@@ -42,5 +44,20 @@
   .badge {
     top: 14px;
     right: 14px;
+  }
+}
+
+@keyframes wobble {
+  from {
+    rotate: -4deg;
+  }
+  to {
+    rotate: 4deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .badge {
+    animation: none;
   }
 }
