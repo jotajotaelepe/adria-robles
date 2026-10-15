@@ -7,13 +7,7 @@ type Props = { title: string; titleHref?: string };
 export default function Header({ title, titleHref }: Props) {
   return (
     <header className={styles.header}>
-      {titleHref ? (
-        <Link href={titleHref} className={styles.name}>
-          {title}
-        </Link>
-      ) : (
-        <h1 className={styles.name}>{title}</h1>
-      )}
+      <h1 className={styles.name}>{titleHref ? <Link href={titleHref}>{title}</Link> : title}</h1>
       <Badge />
     </header>
   );

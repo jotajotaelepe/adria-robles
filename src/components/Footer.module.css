@@ -36,10 +36,10 @@
   font-family: var(--f-display);
 }
 .row a {
-  text-decoration: underline;
   text-underline-offset: 0.18em;
 }
 .row a:hover {
+  text-decoration: underline;
   text-decoration-thickness: 2px;
 }
 

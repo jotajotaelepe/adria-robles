@@ -20,7 +20,7 @@
 
 @media (max-width: 767px) {
   .page {
-    padding: 140px 20px calc(100px + 40px);
+    padding: calc(752 * var(--u)) calc(65 * var(--u)) calc(100px + 40px);
   }
   .copy {
     columns: 1;

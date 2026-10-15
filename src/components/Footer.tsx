@@ -17,7 +17,7 @@ export default function Footer() {
       <span className={styles.dot}>•</span>
       <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
       <span className={styles.dot}>•</span>
-      <span>© 2026 All rights reserved.</span>
+      <span>© 2026 All Rights Reserved.</span>
     </>
   );
 

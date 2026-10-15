@@ -8,7 +8,7 @@ export const metadata: Metadata = { title: "About — Adria Robles" };
 export default function About() {
   return (
     <>
-      <Header title="¡Hola, hello!" titleHref="/" />
+      <Header title="¡Hola, Hello!" titleHref="/" />
       <main className={styles.page}>
         <div className={styles.copy}>
           <p>
