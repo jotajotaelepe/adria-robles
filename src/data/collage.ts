@@ -33,7 +33,6 @@ export const collage: CollageItem[] = [
   { id: "6:252", kind: "img", label: "unnamed-2 1", src: "/img/unnamed-2-1.png", x: 980, y: 2560, w: 140, h: 200, z: 43, crop: null },
   { id: "9:292", kind: "img", label: "Water-Bubbles-Transparent-PNG 2", src: "/img/water-bubbles-transparent-png-1.png", x: 1487, y: 2657, w: 273, h: 157, z: 18, crop: [5.1322, 8.929, -1.8338, -5.4586] },
   { id: "6:248", kind: "img", label: "unnamed-1 1", src: "/img/unnamed-1-1.png", x: 1263, y: 3152, w: 190, h: 224, z: 15, crop: [1.3291, 1.4444, -0.1549, -0.1602] },
-  { id: "6:254", kind: "img", label: "Screen+Shot+2021-07-09+at+6.25.19+PM_upscayl_4x_realesrgan-x4plus 1", src: "/img/screen-shot-2021-07-09-at-6-25-19-pm-upscayl-4x-.png", x: 1192, y: 3304, w: 545, h: 546, z: 6, crop: null },
   { id: "18:18", kind: "img", label: "RICKY TAYLOR 3", src: "/img/ricky-taylor-3.png", x: 76, y: 3376, w: 284, h: 284, z: 31, crop: null },
   { id: "21:21", kind: "img", label: "RICKY TAYLOR 4", src: "/img/ricky-taylor-4.png", x: 362, y: 3376, w: 284, h: 284, z: 29, crop: null },
   { id: "21:22", kind: "img", label: "RICKY TAYLOR 5", src: "/img/ricky-taylor-5.png", x: 648, y: 3376, w: 284, h: 284, z: 30, crop: null },
@@ -42,4 +41,5 @@ export const collage: CollageItem[] = [
   { id: "51:50", kind: "img", label: "Water-Bubbles-Transparent-PNG 3", src: "/img/water-bubbles-transparent-png-1.png", x: 358, y: 4171, w: 207, h: 182, z: 19, crop: [6.7685, 7.7025, -2.1932, -3.4149] },
   { id: "22:70", kind: "img", label: "unnamed 3", src: "/img/unnamed-3.jpg", x: 231, y: 4522, w: 465, h: 349, z: 0, crop: null },
   { id: "28:212", kind: "img", label: "kfc-special-stage-1 1", src: "/img/kfc-special-stage-1-1.png", x: 1493, y: 4551, w: 317, h: 280, z: 46, crop: [1.571, 1.0, -0.2713, 0.0] },
+  { id: "6:255", kind: "img", label: "Photo34_31 1", src: "/img/photo34-31-1.jpg", x: 1136, y: 3392, w: 420, h: 625, z: 7, crop: null },
 ];

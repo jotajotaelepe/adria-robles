@@ -29,7 +29,7 @@ const RightArrow = () => (
 
 /** One project: its first image sits in the collage; title, arrows and counter go below. Each project is its own carousel. */
 export default function ProjectCarousel({ project, frame }: Props) {
-  const { id, title, x, y, w, z, slides } = project;
+  const { id, title, x, y, w, z, slides, captionGap = 0 } = project;
   const n = slides.length;
   const multi = n > 1;
   const [i, setI] = useState(0);
@@ -94,7 +94,7 @@ export default function ProjectCarousel({ project, frame }: Props) {
         />
       </div>
 
-      <div className={styles.caption}>
+      <div className={styles.caption} style={captionGap ? { marginTop: `calc(${14 + captionGap} * var(--u))` } : undefined}>
         <h2 className={styles.title}>{title}</h2>
         <div className={styles.controls} data-project={id}>
           <button type="button" onClick={() => go(-1)} disabled={!multi} aria-label={`Previous image of ${title}`}>
