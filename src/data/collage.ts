@@ -23,7 +23,6 @@ export const collage: CollageItem[] = [
   { id: "6:263", kind: "img", label: "cheeseNcherries 1", src: "/img/cheesencherries-1.png", x: 1487, y: 835, w: 185, h: 193, z: 21, crop: [2.4162, 1.1606, -0.1514, 0.0] },
   { id: "6:262", kind: "img", label: "33-330619_6-crayon-circle-scribble-png-transparent-circle-crayon 1", src: "/img/33-330619-6-crayon-circle-scribble-png-transpare-2.png", x: 888, y: 852, w: 529, h: 529, z: 20, crop: null },
   { id: "6:265", kind: "img", label: "unnamed-1 2", src: "/img/unnamed-1-2.png", x: 75, y: 985, w: 128, h: 468, z: 23, crop: null },
-  { id: "6:288", kind: "img", label: "IMG_2837 1", src: "/img/img-2837-1.jpg", x: 1347, y: 1078, w: 442, h: 442, z: 3, crop: null },
   { id: "6:266", kind: "img", label: "unnamed-2 2", src: "/img/unnamed-2-2.png", x: 676, y: 1115, w: 134, h: 207, z: 24, crop: null },
   { id: "6:235", kind: "img", label: "delfin 1", src: "/img/delfin-1.png", x: 682, y: 1388, w: 159, h: 186, z: 25, crop: [2.5043, 1.887, -0.7174, -0.4421] },
   { id: "6:145", kind: "img", label: "CintaAmarilla 1", src: "/img/cintaamarilla-1.png", x: 479, y: 1571, w: 282, h: 148, z: 16, crop: null },
@@ -37,9 +36,7 @@ export const collage: CollageItem[] = [
   { id: "21:21", kind: "img", label: "RICKY TAYLOR 4", src: "/img/ricky-taylor-4.png", x: 362, y: 3376, w: 284, h: 284, z: 29, crop: null },
   { id: "21:22", kind: "img", label: "RICKY TAYLOR 5", src: "/img/ricky-taylor-5.png", x: 648, y: 3376, w: 284, h: 284, z: 30, crop: null },
   { id: "6:249", kind: "img", label: "unnamed 1", src: "/img/unnamed-1.png", x: 270, y: 3719, w: 335, h: 262, z: 32, crop: null },
-  { id: "24:74", kind: "img", label: "unnamed-3 2", src: "/img/unnamed-3-2.png", x: 595, y: 4004, w: 593, h: 514, z: 45, crop: [1.3085, 1.0251, -0.1445, -0.0] },
   { id: "51:50", kind: "img", label: "Water-Bubbles-Transparent-PNG 3", src: "/img/water-bubbles-transparent-png-1.png", x: 358, y: 4171, w: 207, h: 182, z: 19, crop: [6.7685, 7.7025, -2.1932, -3.4149] },
   { id: "22:70", kind: "img", label: "unnamed 3", src: "/img/unnamed-3.jpg", x: 231, y: 4522, w: 465, h: 349, z: 0, crop: null },
   { id: "28:212", kind: "img", label: "kfc-special-stage-1 1", src: "/img/kfc-special-stage-1-1.png", x: 1493, y: 4551, w: 317, h: 280, z: 46, crop: [1.571, 1.0, -0.2713, 0.0] },
-  { id: "6:255", kind: "img", label: "Photo34_31 1", src: "/img/photo34-31-1.jpg", x: 1136, y: 3392, w: 420, h: 625, z: 7, crop: null },
 ];

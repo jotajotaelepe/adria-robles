@@ -1,6 +1,8 @@
 .collage {
   max-width: 1920px;
   margin: 0 auto;
+  /* breathing room above the fixed marquee, so the last project never sits against it */
+  padding-bottom: calc(var(--footer-h) + 120 * var(--u));
 }
 .canvas {
   position: relative;
@@ -9,7 +11,7 @@
 
 @media (max-width: 767px) {
   .collage {
-    padding: 4vw 5vw 0;
+    padding: 4vw 5vw calc(var(--footer-h) + 16vw);
   }
   .canvas {
     aspect-ratio: auto !important;
