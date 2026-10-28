@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRef } from "react";
 import type { CollageItem } from "@/data/collage";
 import styles from "./Layer.module.css";
@@ -49,16 +50,26 @@ export default function Layer({ item, frame, draggable, priority, flow, reveal }
     ref.current?.classList.remove(styles.grabbing);
   };
 
-  const imgStyle = crop
-    ? {
-        position: "absolute" as const,
-        width: pct(crop[0]),
-        height: pct(crop[1]),
-        left: pct(crop[2]),
-        top: pct(crop[3]),
-        maxWidth: "none",
-      }
-    : undefined;
+  // Rendered width of the picture itself, so the browser downloads a size that matches
+  const shown = crop ? crop[0] : 1;
+  const desktopVw = Math.min(100, ((w * shown) / frame.w) * 100);
+  const mobileVw = frame.w === 1080 ? Math.min(150, ((w * shown) / 1080) * 100) : Math.min(92, Math.max(26, (w / 1920) * 220)) * 0.9 * shown;
+  const sizes = `(max-width: 767px) ${Math.ceil(mobileVw)}vw, ${Math.ceil(desktopVw)}vw`;
+  const isSvg = src.endsWith(".svg");
+  const picture = (
+    <Image
+      src={src}
+      alt={kind === "arrows" ? "" : label}
+      fill
+      sizes={sizes}
+      unoptimized={isSvg}
+      draggable={false}
+      // a sticker or hero image in view loads right away; everything else waits until it's near the screen
+      loading="lazy"
+      fetchPriority={priority ? "high" : "auto"}
+      decoding="async"
+    />
+  );
 
   return (
     <div
@@ -85,15 +96,16 @@ export default function Layer({ item, frame, draggable, priority, flow, reveal }
       onPointerUp={onUp}
       onPointerCancel={onUp}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={src}
-        alt={kind === "arrows" ? "" : label}
-        draggable={false}
-        loading={priority ? "eager" : "lazy"}
-        decoding="async"
-        style={imgStyle}
-      />
+      {crop ? (
+        <span
+          className={styles.crop}
+          style={{ width: pct(crop[0]), height: pct(crop[1]), left: pct(crop[2]), top: pct(crop[3]) }}
+        >
+          {picture}
+        </span>
+      ) : (
+        picture
+      )}
     </div>
   );
 }

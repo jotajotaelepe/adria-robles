@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import styles from "./FrogHunt.module.css";
 
@@ -73,8 +74,7 @@ export default function FrogHunt() {
                 aria-label={`Hidden frog ${i + 1} of ${FROGS.length}. Collect it`}
               >
                 <span className={styles.sprite}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/img/ranita-1.png" alt="" draggable={false} />
+                  <Image src="/img/ranita-1.png" alt="" width={730} height={642} sizes="110px" draggable={false} />
                 </span>
               </button>
             ),

@@ -1,5 +1,6 @@
 "use client";
 
+import Image, { getImageProps } from "next/image";
 import { useEffect, useRef, useState } from "react";
 import type { Project } from "@/data/projects";
 import styles from "./ProjectCarousel.module.css";
@@ -38,14 +39,21 @@ export default function ProjectCarousel({ project, frame }: Props) {
 
   useReveal(ref, true, styles.in);
 
-  // warm the neighbours so slides swap instantly
+  // the picture is never wider than its box in the collage, so ask for that size (and a phone-column size)
+  const sizes = `(max-width: 767px) ${Math.ceil(Math.min(92, Math.max(40, (w / 1920) * 220)) * 0.9)}vw, ${Math.ceil((w / frame.w) * 100)}vw`;
+
+  // warm the neighbours (the optimized versions the page will actually ask for) so slides swap instantly
   useEffect(() => {
     if (!multi) return;
     for (const k of [i + 1, i - 1]) {
-      const img = new Image();
-      img.src = slides[(k + n) % n].src;
+      const s = slides[(k + n) % n];
+      const { props } = getImageProps({ src: s.src, alt: "", width: s.w, height: s.h, sizes });
+      const img = new window.Image();
+      img.sizes = props.sizes ?? "";
+      img.srcset = props.srcSet ?? "";
+      img.src = props.src;
     }
-  }, [i, multi, n, slides]);
+  }, [i, multi, n, slides, sizes]);
 
   const go = (d: number) => setI((v) => (v + d + n) % n);
   const first = slides[0];
@@ -80,14 +88,13 @@ export default function ProjectCarousel({ project, frame }: Props) {
           swipe.current = null;
         }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           key={cur.src}
           className={styles.slide}
           src={cur.src}
           alt={`${title}, image ${i + 1} of ${n}`}
-          width={cur.w}
-          height={cur.h}
+          fill
+          sizes={sizes}
           draggable={false}
           loading="lazy"
           decoding="async"
