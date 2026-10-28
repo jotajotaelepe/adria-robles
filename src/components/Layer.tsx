@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import type { CollageItem } from "@/data/collage";
 import styles from "./Layer.module.css";
+import { useReveal } from "./useReveal";
 
 type Props = {
   item: CollageItem;
@@ -24,21 +25,7 @@ export default function Layer({ item, frame, draggable, priority, flow, reveal }
   const ref = useRef<HTMLDivElement>(null);
   const drag = useRef<{ sx: number; sy: number; ox: number; oy: number } | null>(null);
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!reveal || !el) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          el.classList.add(styles.in);
-          io.disconnect();
-        }
-      },
-      { threshold: 0.12, rootMargin: "0px 0px -6% 0px" },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, [reveal]);
+  useReveal(ref, !!reveal, styles.in);
 
   const onDown = (e: React.PointerEvent) => {
     if (!draggable || !ref.current) return;

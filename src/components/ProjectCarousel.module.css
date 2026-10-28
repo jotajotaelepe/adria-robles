@@ -1,0 +1,137 @@
+.project {
+  position: absolute;
+  /* no z-index here: image and caption layer separately against the stickers */
+}
+
+.frame {
+  position: relative;
+  width: 100%;
+  z-index: var(--z);
+  touch-action: pan-y;
+  transition: rotate 0.5s ease, scale 0.5s ease;
+}
+.clickable {
+  cursor: pointer;
+}
+
+.slide {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+  animation: slide-in 0.4s ease both;
+}
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    scale: 1.03;
+  }
+}
+
+.caption {
+  position: relative;
+  z-index: 55; /* captions sit above stickers, below the frogs */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(6 * var(--u));
+  margin-top: calc(14 * var(--u));
+  text-align: center;
+}
+
+.title {
+  font-family: var(--f-serif);
+  font-weight: 400;
+  font-size: clamp(14px, calc(26 * var(--u)), 26px);
+  line-height: 1.15;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(12 * var(--u));
+}
+.controls button {
+  display: grid;
+  place-items: center;
+  width: clamp(34px, calc(46 * var(--u)), 46px);
+  height: clamp(28px, calc(34 * var(--u)), 34px);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  transition: translate 0.2s ease, opacity 0.2s ease;
+}
+.controls button svg {
+  width: 100%;
+  height: auto;
+}
+.controls button:first-child:hover:not(:disabled) {
+  translate: -5px 0;
+}
+.controls button:last-child:hover:not(:disabled) {
+  translate: 5px 0;
+}
+.controls button:active:not(:disabled) {
+  opacity: 0.5;
+}
+.controls button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.controls button:focus-visible {
+  outline: 2px solid var(--black);
+  outline-offset: 2px;
+}
+
+.count {
+  min-width: 3.2em;
+  font-family: var(--f-serif);
+  font-size: clamp(13px, calc(20 * var(--u)), 20px);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+/* scroll reveal — only when scripting is available */
+@media (scripting: enabled) {
+  .project:not(.in) {
+    opacity: 0;
+    translate: 0 48px;
+    rotate: var(--r);
+  }
+  .project.in {
+    transition: opacity 0.7s ease, translate 0.9s cubic-bezier(0.2, 0.8, 0.2, 1), rotate 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+}
+
+@media (hover: hover) {
+  .project.in .frame:hover {
+    rotate: calc(var(--r) * -1);
+    scale: 1.02;
+  }
+}
+
+@media (max-width: 767px) {
+  .project {
+    position: relative;
+    left: auto !important;
+    top: auto !important;
+    width: var(--mw) !important;
+    margin-left: calc((100% - var(--mw)) * var(--xr));
+    margin-bottom: 9vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project:not(.in) {
+    opacity: 1;
+    translate: none;
+    rotate: none;
+  }
+  .slide {
+    animation: none;
+  }
+}
