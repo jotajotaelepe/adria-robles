@@ -59,10 +59,16 @@ export default function ProjectCarousel({ project, frame }: Props) {
   const first = slides[0];
   const cur = slides[i];
 
+  // The frame follows the current slide's shape, but never gets much flatter or taller than the
+  // collage's design box (so a tall photo can't shove the page around). The picture is letterboxed inside.
+  const r1 = first.h / first.w;
+  const ratio = Math.min(1.4 * r1, Math.max(0.7 * r1, cur.h / cur.w));
+
   return (
     <article
       ref={ref}
       className={styles.project}
+      data-lifted={i > 0 ? "" : undefined}
       style={
         {
           left: pct(x / frame.w),
@@ -77,7 +83,7 @@ export default function ProjectCarousel({ project, frame }: Props) {
     >
       <div
         className={`${styles.frame} ${multi ? styles.clickable : ""}`}
-        style={{ aspectRatio: `${first.w} / ${first.h}` }}
+        style={{ aspectRatio: `1 / ${ratio}` }}
         onClick={multi ? () => go(1) : undefined}
         onPointerDown={(e) => (swipe.current = e.clientX)}
         onPointerUp={(e) => {
