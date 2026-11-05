@@ -26,6 +26,11 @@
   text-decoration: underline;
   text-underline-offset: 0.2em;
 }
+.weather {
+  display: flex;
+  gap: 0.6em;
+  align-items: baseline;
+}
 .sep {
   opacity: 0.5;
 }
@@ -36,5 +41,15 @@
     top: 64px;
     translate: none;
     font-size: 13px;
+    /* a taller tap area without moving the text */
+    padding-block: 14px;
+    margin-block: -14px;
+  }
+}
+
+/* very narrow phones: drop the weather so the clock never runs under the badge */
+@media (max-width: 379px) {
+  .weather {
+    display: none;
   }
 }

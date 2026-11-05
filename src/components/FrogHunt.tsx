@@ -64,7 +64,7 @@ export default function FrogHunt() {
                 className={styles.frog}
                 style={
                   {
-                    left: `${f.x}%`,
+                    "--x": `${f.x}%`,
                     top: `${f.y}%`,
                     "--s": f.s,
                     "--r": `${f.r}deg`,
@@ -92,7 +92,8 @@ export default function FrogHunt() {
             </>
           ) : (
             <>
-              Find the frogs! <b>{found.length}/{FROGS.length}</b>
+              <span className={styles.full}>Find the frogs!</span>
+              <span className={styles.short}>Frogs</span> <b>{found.length}/{FROGS.length}</b>
             </>
           )}
         </div>

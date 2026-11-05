@@ -74,12 +74,12 @@ export default function LocalTime() {
       <span className={styles.sep}>·</span>
       <span className={styles.time}>{time}</span>
       {w && (
-        <>
+        <span className={styles.weather}>
           <span className={styles.sep}>·</span>
           <span>
             {w.temp}°C, <em>{describe(w.code)}</em>
           </span>
-        </>
+        </span>
       )}
     </button>
   );

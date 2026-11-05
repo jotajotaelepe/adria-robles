@@ -16,12 +16,14 @@ type Props = {
   flow?: boolean;
   /** fade/rise into place the first time it scrolls into view */
   reveal?: boolean;
+  /** how this piece behaves in the phone column: tucked-in sticker, tape overlapping the next block, or hidden */
+  mobile?: "sticker" | "tape" | "hide";
 };
 
 const pct = (n: number) => `${n * 100}%`;
 
 /** One Figma layer, positioned as a percentage of its frame so the whole composition scales. */
-export default function Layer({ item, frame, draggable, priority, flow, reveal }: Props) {
+export default function Layer({ item, frame, draggable, priority, flow, reveal, mobile }: Props) {
   const { x, y, w, h, z, crop, src, label, kind } = item;
   const ref = useRef<HTMLDivElement>(null);
   const drag = useRef<{ sx: number; sy: number; ox: number; oy: number } | null>(null);
@@ -74,7 +76,7 @@ export default function Layer({ item, frame, draggable, priority, flow, reveal }
   return (
     <div
       ref={ref}
-      className={[styles.layer, kind === "arrows" && styles.arrows, draggable && styles.draggable, flow && styles.flow, reveal && styles.reveal]
+      className={[styles.layer, kind === "arrows" && styles.arrows, draggable && styles.draggable, flow && styles.flow, reveal && styles.reveal, mobile === "sticker" && styles.mSticker, mobile === "tape" && styles.mTape, mobile === "hide" && styles.mHide]
         .filter(Boolean)
         .join(" ")}
       style={
@@ -87,6 +89,7 @@ export default function Layer({ item, frame, draggable, priority, flow, reveal }
           "--mw": `${Math.min(92, Math.max(26, (w / 1920) * 220))}%`,
           "--xr": Math.min(1, Math.max(0, x / (1920 - w))),
           "--ar": `${w} / ${h}`,
+          "--arn": w / h,
           "--r": `${(((x * 13 + y * 7) % 9) - 4) * 0.6}deg`,
           "--d": `${-((x + y) % 7)}s`,
         } as React.CSSProperties

@@ -92,4 +92,20 @@
     margin-left: calc((100% - var(--mw)) * var(--xr));
     margin-bottom: 7vw;
   }
+
+  /* On a phone the loose pieces of the collage tuck against their neighbours instead of floating alone */
+  .mHide {
+    display: none;
+  }
+  .flow.mSticker {
+    width: 26% !important;
+    margin-top: -6vw;
+    margin-bottom: 1vw;
+    z-index: 50 !important; /* above photos, below captions */
+    pointer-events: none;
+  }
+  .flow.mTape {
+    width: 46% !important;
+    margin-bottom: calc(46% / var(--arn) * -0.6); /* half of it lands on the photo that follows */
+  }
 }

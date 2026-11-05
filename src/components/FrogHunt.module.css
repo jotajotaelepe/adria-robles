@@ -7,6 +7,7 @@
 
 .frog {
   position: absolute;
+  left: min(var(--x), calc(100% - 68px)); /* never pokes past the right edge, even on a phone */
   pointer-events: auto;
   width: clamp(34px, calc(var(--s) * var(--u)), 80px);
   aspect-ratio: 196 / 175; /* the ranita crop from Figma */
@@ -111,9 +112,25 @@
   }
 }
 
+.short {
+  display: none;
+}
+
 @media (max-width: 767px) {
+  .frog {
+    width: clamp(44px, calc(var(--s) * var(--u) * 1.4), 64px);
+  }
   .hud {
-    left: 14px;
+    left: 10px;
+    bottom: calc(var(--footer-h) + 8px);
+    padding: 2px 10px;
+    font-size: 13px;
+  }
+  .full {
+    display: none;
+  }
+  .short {
+    display: inline;
   }
 }
 

@@ -124,6 +124,23 @@
   }
 }
 
+/* phones: arrows get a proper thumb-sized hit area (the drawn arrow stays the same size) */
+@media (max-width: 767px), (pointer: coarse) {
+  .controls {
+    gap: 4px;
+  }
+  .controls button {
+    width: 56px;
+    height: 48px;
+  }
+  .controls button svg {
+    width: 36px;
+  }
+  .caption {
+    gap: 2px;
+  }
+}
+
 @media (max-width: 767px) {
   .project {
     position: relative;
