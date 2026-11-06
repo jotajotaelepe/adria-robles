@@ -3,6 +3,20 @@
   /* no z-index here: image and caption layer separately against the stickers */
 }
 
+.backdrop {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: auto;
+  z-index: calc(var(--z) - 1); /* always behind the project's own image */
+  pointer-events: none;
+  user-select: none;
+}
+
+.mobileSticker {
+  display: none;
+}
+
 .frame {
   position: relative;
   width: 100%;
@@ -119,8 +133,7 @@
 
 @media (hover: hover) {
   .project.in .frame:hover {
-    rotate: calc(var(--r) * -1);
-    scale: 1.02;
+    scale: 1.04;
   }
 }
 
@@ -142,6 +155,16 @@
 }
 
 @media (max-width: 767px) {
+  .mobileSticker {
+    display: block;
+    position: absolute;
+    right: -3%;
+    bottom: 13%;
+    width: 34%;
+    height: auto;
+    z-index: 56;
+    pointer-events: none;
+  }
   .project {
     position: relative;
     left: auto !important;

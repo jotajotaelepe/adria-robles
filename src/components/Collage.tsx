@@ -9,10 +9,9 @@ const frame = { w: COLLAGE_W, h: COLLAGE_H };
 
 // How each loose piece behaves on a phone. Anything not listed (photos) flows as-is.
 const MOBILE: Record<string, "sticker" | "tape" | "hide"> = {
-  // glass/plastic overlays and the scribble ring only make sense stacked on a photo
+  // glass/plastic overlays only make sense stacked on a photo
   "6:265": "hide",
   "6:266": "hide",
-  "6:262": "hide",
   // tape that holds the next photo
   "6:145": "tape",
   "6:147": "tape",
@@ -26,7 +25,7 @@ const MOBILE: Record<string, "sticker" | "tape" | "hide"> = {
   "6:248": "sticker",
   "6:252": "sticker",
   "6:249": "sticker",
-  "28:212": "sticker",
+  "28:212": "hide", // the KFC badge rides along with the KFC project instead (see projects.ts)
 };
 
 // Stickers/props and projects share one canvas; sorted top-to-bottom so the phone column reads in order.

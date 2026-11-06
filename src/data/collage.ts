@@ -21,7 +21,6 @@ export const COLLAGE_H = 5100;
 export const collage: CollageItem[] = [
   { id: "6:259", kind: "img", label: "Water-Bubbles-Transparent-PNG 1", src: "/img/water-bubbles-transparent-png-1.png", x: 1123, y: 344, w: 253, h: 327, z: 17, crop: [9.7297, 4.7682, -1.9865, -3.1722] },
   { id: "6:263", kind: "img", label: "cheeseNcherries 1", src: "/img/cheesencherries-1.png", x: 1487, y: 835, w: 185, h: 193, z: 21, crop: [2.4162, 1.1606, -0.1514, 0.0] },
-  { id: "6:262", kind: "img", label: "33-330619_6-crayon-circle-scribble-png-transparent-circle-crayon 1", src: "/img/33-330619-6-crayon-circle-scribble-png-transpare-2.png", x: 888, y: 852, w: 529, h: 529, z: 20, crop: null },
   { id: "6:265", kind: "img", label: "unnamed-1 2", src: "/img/unnamed-1-2.png", x: 75, y: 985, w: 128, h: 468, z: 23, crop: null },
   { id: "6:266", kind: "img", label: "unnamed-2 2", src: "/img/unnamed-2-2.png", x: 676, y: 1115, w: 134, h: 207, z: 24, crop: null },
   { id: "6:235", kind: "img", label: "delfin 1", src: "/img/delfin-1.png", x: 682, y: 1388, w: 159, h: 186, z: 25, crop: [2.5043, 1.887, -0.7174, -0.4421] },

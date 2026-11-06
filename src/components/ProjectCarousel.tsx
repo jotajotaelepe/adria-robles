@@ -30,7 +30,7 @@ const RightArrow = () => (
 
 /** One project: its first image sits in the collage; title, arrows and counter go below. Each project is its own carousel. */
 export default function ProjectCarousel({ project, frame }: Props) {
-  const { id, title, x, y, w, z, slides, captionGap = 0 } = project;
+  const { id, title, x, y, w, z, slides, captionGap = 0, backdrop, mobileSticker } = project;
   const n = slides.length;
   const multi = n > 1;
   const [i, setI] = useState(0);
@@ -81,6 +81,19 @@ export default function ProjectCarousel({ project, frame }: Props) {
         } as React.CSSProperties
       }
     >
+      {backdrop && (
+        <Image
+          className={styles.backdrop}
+          src={backdrop.src}
+          alt=""
+          width={backdrop.w}
+          height={backdrop.h}
+          sizes={`${Math.ceil(backdrop.size * (w / frame.w) * 100)}vw`}
+          style={{ width: pct(backdrop.size), translate: `${(backdrop.dx / backdrop.size) * 100}% ${(backdrop.dy / backdrop.size) * 100}%` }}
+          draggable={false}
+        />
+      )}
+
       <div
         className={`${styles.frame} ${multi ? styles.clickable : ""}`}
         style={{ aspectRatio: `1 / ${ratio}` }}
@@ -121,6 +134,18 @@ export default function ProjectCarousel({ project, frame }: Props) {
           </button>
         </div>
       </div>
+
+      {mobileSticker && (
+        <Image
+          className={styles.mobileSticker}
+          src={mobileSticker.src}
+          alt=""
+          width={mobileSticker.w}
+          height={mobileSticker.h}
+          sizes="34vw"
+          draggable={false}
+        />
+      )}
     </article>
   );
 }
