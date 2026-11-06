@@ -7,6 +7,9 @@ import styles from "./Collage.module.css";
 
 const frame = { w: COLLAGE_W, h: COLLAGE_H };
 
+// Loose pieces that always float above the project photos (desktop and phone)
+const STICKERS = new Set(["6:259", "9:292", "51:50", "6:263", "6:235", "6:261", "6:248", "6:252", "6:249", "28:212"]);
+
 // How each loose piece behaves on a phone. Anything not listed (photos) flows as-is.
 const MOBILE: Record<string, "sticker" | "tape" | "hide"> = {
   // glass/plastic overlays only make sense stacked on a photo
@@ -43,7 +46,7 @@ export default function Collage() {
           e.kind === "project" ? (
             <ProjectCarousel key={e.project.id} project={e.project} frame={frame} />
           ) : (
-            <Layer key={e.item.id} item={e.item} frame={frame} flow reveal={e.item.kind === "img"} mobile={MOBILE[e.item.id]} />
+            <Layer key={e.item.id} item={e.item} frame={frame} flow reveal={e.item.kind === "img"} mobile={MOBILE[e.item.id]} sticker={STICKERS.has(e.item.id)} />
           ),
         )}
         <FrogHunt />

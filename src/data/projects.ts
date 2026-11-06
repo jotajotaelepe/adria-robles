@@ -1,7 +1,7 @@
 // Each project is a carousel: slides[0] is the image shown in the collage, the rest are reached with the arrows.
 // Titles are placeholders inferred from the images — edit here (or in the CMS later).
 
-export type Slide = { src: string; w: number; h: number };
+export type Slide = { src: string; w: number; h: number; /** a video (plays muted on a loop, tap to pause, button for sound) */ video?: boolean };
 
 export type Project = {
   id: string;
@@ -30,5 +30,5 @@ export const projects: Project[] = [
   { id: "sonido-perpetuo", title: "Sonido Perpetuo", x: 216, y: 2148, w: 475, z: 13, slides: [{ src: "/img/projects/Sonido%20Perpetuo/01.png", w: 636, h: 424 }, { src: "/img/projects/Sonido%20Perpetuo/02.png", w: 738, h: 441 }, { src: "/img/projects/Sonido%20Perpetuo/03.png", w: 859, h: 483 }, { src: "/img/projects/Sonido%20Perpetuo/04.png", w: 519, h: 519 }, { src: "/img/projects/Sonido%20Perpetuo/05.png", w: 737, h: 492 }, { src: "/img/projects/Sonido%20Perpetuo/06.png", w: 772, h: 516 }, { src: "/img/projects/Sonido%20Perpetuo/07.png", w: 550, h: 550 }, { src: "/img/projects/Sonido%20Perpetuo/08.png", w: 764, h: 511 }, { src: "/img/projects/Sonido%20Perpetuo/09.png", w: 759, h: 506 }] },
   { id: "cadillac-live", title: "Cadillac Live", x: 193, y: 2723, w: 833, z: 27, slides: [{ src: "/img/livestreamtrim-1.png", w: 640, h: 360 }] },
   { id: "adhoc-coffee", title: "ADHOC Coffee", x: 1192, y: 3304, w: 545, z: 6, slides: [{ src: "/img/screen-shot-2021-07-09-at-6-25-19-pm-upscayl-4x-.png", w: 2196, h: 2200 }, { src: "/img/projects/ADHOC/02.png", w: 598, h: 600 }, { src: "/img/projects/ADHOC/03.png", w: 599, h: 752 }, { src: "/img/projects/ADHOC/04.png", w: 597, h: 596 }, { src: "/img/projects/ADHOC/05.png", w: 754, h: 754 }, { src: "/img/projects/ADHOC/06.png", w: 689, h: 691 }, { src: "/img/projects/ADHOC/07.png", w: 691, h: 691 }] },
-  { id: "kfc", title: "KFC", x: 906, y: 4262, w: 753, z: 44, mobileSticker: { src: "/img/projects/KFC/05.png", w: 317, h: 280 }, slides: [{ src: "/img/projects/KFC/01.png", w: 484, h: 424 }, { src: "/img/projects/KFC/02.png", w: 655, h: 493 }, { src: "/img/projects/KFC/03.png", w: 563, h: 479 }, { src: "/img/projects/KFC/04.png", w: 500, h: 500 }, { src: "/img/projects/KFC/05.png", w: 317, h: 280 }, { src: "/img/projects/KFC/06.png", w: 886, h: 498 }] },
+  { id: "kfc", title: "KFC", x: 906, y: 4262, w: 753, z: 44, mobileSticker: { src: "/img/projects/KFC/badge.gif", w: 498, h: 280 }, slides: [{ src: "/img/projects/KFC/01.png", w: 484, h: 424 }, { src: "/img/projects/KFC/02.png", w: 655, h: 493 }, { src: "/img/projects/KFC/03.png", w: 563, h: 479 }, { src: "/img/projects/KFC/04.png", w: 500, h: 500 }, { src: "/img/projects/KFC/05.png", w: 317, h: 280 }, { src: "/img/projects/KFC/06.png", w: 886, h: 498 }, { src: "/video/kfc-special-stage.mp4", w: 1280, h: 720, video: true }] },
 ];

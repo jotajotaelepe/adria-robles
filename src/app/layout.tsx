@@ -23,6 +23,14 @@ const sans = Inter({
 export const metadata: Metadata = {
   title: "Adria Robles",
   description: "Adria Robles — portfolio.",
+  // dark outline for light browser chrome, white outline for dark (home-screen icon is the dark version on white)
+  icons: {
+    icon: [
+      { url: "/favicon-black.png", type: "image/png", media: "(prefers-color-scheme: light)" },
+      { url: "/favicon-white.png", type: "image/png", media: "(prefers-color-scheme: dark)" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

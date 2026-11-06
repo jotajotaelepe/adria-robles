@@ -2,7 +2,7 @@
 
 import Image, { getImageProps } from "next/image";
 import { useEffect, useRef, useState } from "react";
-import type { Project } from "@/data/projects";
+import type { Project, Slide } from "@/data/projects";
 import styles from "./ProjectCarousel.module.css";
 import { useReveal } from "./useReveal";
 
@@ -28,6 +28,88 @@ const RightArrow = () => (
   </svg>
 );
 
+const SoundIcon = ({ on }: { on: boolean }) => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path fill="currentColor" d="M3 9v6h4l5 4V5L7 9H3Z" />
+    {on ? (
+      <path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" />
+    ) : (
+      <path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="m16 9 5 6m0-6-5 6" />
+    )}
+  </svg>
+);
+
+/** A video slide: plays muted on a loop while it's on screen, tap to pause, button for sound. */
+function VideoSlide({ slide, label }: { slide: Slide; label: string }) {
+  const ref = useRef<HTMLVideoElement>(null);
+  const userPaused = useRef(false);
+  const [muted, setMuted] = useState(true);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    // only play while at least part of it is on screen (saves battery and data)
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          if (!userPaused.current) v.play().catch(() => {});
+        } else v.pause();
+      },
+      { threshold: 0.35 },
+    );
+    io.observe(v);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (ref.current) ref.current.muted = muted;
+  }, [muted]);
+
+  const toggle = () => {
+    const v = ref.current;
+    if (!v) return;
+    if (v.paused) {
+      userPaused.current = false;
+      v.play().catch(() => {});
+    } else {
+      userPaused.current = true;
+      v.pause();
+    }
+  };
+
+  return (
+    <>
+      <video
+        ref={ref}
+        className={`${styles.slide} ${styles.video}`}
+        src={`${slide.src}#t=0.001`}
+        aria-label={label}
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        onClick={toggle}
+        onPlay={() => setPaused(false)}
+        onPause={() => setPaused(true)}
+      />
+      {paused && <span className={styles.playBadge} aria-hidden="true">▶</span>}
+      <button
+        type="button"
+        className={styles.soundBtn}
+        aria-label={muted ? "Turn sound on" : "Turn sound off"}
+        aria-pressed={!muted}
+        onClick={(e) => {
+          e.stopPropagation();
+          setMuted((m) => !m);
+        }}
+      >
+        <SoundIcon on={!muted} />
+      </button>
+    </>
+  );
+}
+
 /** One project: its first image sits in the collage; title, arrows and counter go below. Each project is its own carousel. */
 export default function ProjectCarousel({ project, frame }: Props) {
   const { id, title, x, y, w, z, slides, captionGap = 0, backdrop, mobileSticker } = project;
@@ -36,6 +118,7 @@ export default function ProjectCarousel({ project, frame }: Props) {
   const [i, setI] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
   const swipe = useRef<number | null>(null);
+  const swiped = useRef(false);
 
   useReveal(ref, true, styles.in);
 
@@ -47,6 +130,7 @@ export default function ProjectCarousel({ project, frame }: Props) {
     if (!multi) return;
     for (const k of [i + 1, i - 1]) {
       const s = slides[(k + n) % n];
+      if (s.video) continue;
       const { props } = getImageProps({ src: s.src, alt: "", width: s.w, height: s.h, sizes });
       const img = new window.Image();
       img.sizes = props.sizes ?? "";
@@ -95,41 +179,45 @@ export default function ProjectCarousel({ project, frame }: Props) {
       )}
 
       <div
-        className={`${styles.frame} ${multi ? styles.clickable : ""}`}
+        className={`${styles.frame} ${multi || cur.video ? styles.clickable : ""}`}
         style={{ aspectRatio: `1 / ${ratio}` }}
-        onClick={multi ? () => go(1) : undefined}
+        onClick={multi && !cur.video ? () => (swiped.current ? (swiped.current = false) : go(1)) : undefined}
         onPointerDown={(e) => (swipe.current = e.clientX)}
         onPointerUp={(e) => {
           if (swipe.current !== null && multi && Math.abs(e.clientX - swipe.current) > 48) {
             go(e.clientX < swipe.current ? 1 : -1);
-            e.preventDefault();
+            swiped.current = true; // the click that follows a drag must not advance a second time
           }
           swipe.current = null;
         }}
       >
-        <Image
-          key={cur.src}
-          className={styles.slide}
-          src={cur.src}
-          alt={`${title}, image ${i + 1} of ${n}`}
-          fill
-          sizes={sizes}
-          draggable={false}
-          loading="lazy"
-          decoding="async"
-        />
+        {cur.video ? (
+          <VideoSlide key={cur.src} slide={cur} label={`${title}, video ${i + 1} of ${n}`} />
+        ) : (
+          <Image
+            key={cur.src}
+            className={styles.slide}
+            src={cur.src}
+            alt={`${title}, image ${i + 1} of ${n}`}
+            fill
+            sizes={sizes}
+            draggable={false}
+            loading="lazy"
+            decoding="async"
+          />
+        )}
       </div>
 
       <div className={styles.caption} style={captionGap ? { marginTop: `calc(${14 + captionGap} * var(--u))` } : undefined}>
         <h2 className={styles.title}>{title}</h2>
         <div className={styles.controls} data-project={id}>
-          <button type="button" onClick={() => go(-1)} disabled={!multi} aria-label={`Previous image of ${title}`}>
+          <button type="button" onClick={() => go(-1)} disabled={!multi} aria-label={`Previous slide of ${title}`}>
             <LeftArrow />
           </button>
           <span className={styles.count} aria-live="polite">
             {i + 1}/{n}
           </span>
-          <button type="button" onClick={() => go(1)} disabled={!multi} aria-label={`Next image of ${title}`}>
+          <button type="button" onClick={() => go(1)} disabled={!multi} aria-label={`Next slide of ${title}`}>
             <RightArrow />
           </button>
         </div>
@@ -142,7 +230,8 @@ export default function ProjectCarousel({ project, frame }: Props) {
           alt=""
           width={mobileSticker.w}
           height={mobileSticker.h}
-          sizes="34vw"
+          sizes="60vw"
+          unoptimized
           draggable={false}
         />
       )}

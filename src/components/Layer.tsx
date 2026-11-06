@@ -18,13 +18,18 @@ type Props = {
   reveal?: boolean;
   /** how this piece behaves in the phone column: tucked-in sticker, tape overlapping the next block, or hidden */
   mobile?: "sticker" | "tape" | "hide";
+  /** small loose pieces (stickers, drops) always sit above the project photos */
+  sticker?: boolean;
 };
 
 const pct = (n: number) => `${n * 100}%`;
 
+/** stickers sit above every project photo (frames top out at 49) and below captions (55) */
+const STICKER_Z = 50;
+
 /** One Figma layer, positioned as a percentage of its frame so the whole composition scales. */
-export default function Layer({ item, frame, draggable, priority, flow, reveal, mobile }: Props) {
-  const { x, y, w, h, z, crop, src, label, kind } = item;
+export default function Layer({ item, frame, draggable, priority, flow, reveal, mobile, sticker }: Props) {
+  const { x, y, w, h, z, crop, src, label, kind, rot } = item;
   const ref = useRef<HTMLDivElement>(null);
   const drag = useRef<{ sx: number; sy: number; ox: number; oy: number } | null>(null);
 
@@ -57,14 +62,15 @@ export default function Layer({ item, frame, draggable, priority, flow, reveal, 
   const desktopVw = Math.min(100, ((w * shown) / frame.w) * 100);
   const mobileVw = frame.w === 1080 ? Math.min(150, ((w * shown) / 1080) * 100) : Math.min(92, Math.max(26, (w / 1920) * 220)) * 0.9 * shown;
   const sizes = `(max-width: 767px) ${Math.ceil(mobileVw)}vw, ${Math.ceil(desktopVw)}vw`;
-  const isSvg = src.endsWith(".svg");
+  // vector and animated files are served as-is; the optimizer would flatten them
+  const asIs = src.endsWith(".svg") || src.endsWith(".gif");
   const picture = (
     <Image
       src={src}
       alt={kind === "arrows" ? "" : label}
       fill
       sizes={sizes}
-      unoptimized={isSvg}
+      unoptimized={asIs}
       draggable={false}
       // a sticker or hero image in view loads right away; everything else waits until it's near the screen
       loading="lazy"
@@ -85,11 +91,12 @@ export default function Layer({ item, frame, draggable, priority, flow, reveal, 
           top: pct(y / frame.h),
           width: pct(w / frame.w),
           height: pct(h / frame.h),
-          zIndex: z,
+          zIndex: sticker ? STICKER_Z : z,
           "--mw": `${Math.min(92, Math.max(26, (w / 1920) * 220))}%`,
           "--xr": Math.min(1, Math.max(0, x / (1920 - w))),
           "--ar": `${w} / ${h}`,
           "--arn": w / h,
+          "--smw": `${w < 200 ? 20 : 26}%`,
           "--r": `${(((x * 13 + y * 7) % 9) - 4) * 0.6}deg`,
           "--d": `${-((x + y) % 7)}s`,
         } as React.CSSProperties
@@ -99,16 +106,25 @@ export default function Layer({ item, frame, draggable, priority, flow, reveal, 
       onPointerUp={onUp}
       onPointerCancel={onUp}
     >
-      {crop ? (
-        <span
-          className={styles.crop}
-          style={{ width: pct(crop[0]), height: pct(crop[1]), left: pct(crop[2]), top: pct(crop[3]) }}
-        >
-          {picture}
-        </span>
-      ) : (
-        picture
-      )}
+      {(() => {
+        const inner = crop ? (
+          <span
+            className={styles.crop}
+            style={{ width: pct(crop[0]), height: pct(crop[1]), left: pct(crop[2]), top: pct(crop[3]) }}
+          >
+            {picture}
+          </span>
+        ) : (
+          picture
+        );
+        return rot ? (
+          <span className={styles.turned} style={{ transform: `rotate(${rot}deg)` }}>
+            {inner}
+          </span>
+        ) : (
+          inner
+        );
+      })()}
     </div>
   );
 }
